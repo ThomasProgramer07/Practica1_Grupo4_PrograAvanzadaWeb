@@ -1,7 +1,15 @@
+
+using Microsoft.EntityFrameworkCore;
+using WebAvanzadaIICuatrimestre.DAL.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Register EF Core DbContext (SQLite). Update the connection string in appsettings.json
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
@@ -30,6 +38,7 @@ app.MapControllerRoute(
 //MIDDLEWARES
 
 //INGRESO DE VARIASBLES DE ENTORNO AZURE KEYVAULTS
+
 
 
 
