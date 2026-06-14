@@ -11,6 +11,8 @@ namespace WebAvanzadaIICuatrimestre.BLL
         {
             CreateMap<DAL.Entidades.Carro, Dtos.CarroDto>().ReverseMap();
             CreateMap<DAL.Entidades.Duenno, Dtos.DuennoDto>().ReverseMap();
+            CreateMap<DAL.Entidades.Cliente, Dtos.ClienteDto>().ReverseMap();
+            CreateMap<DAL.Entidades.Telefono, Dtos.TelefonoDto>().ReverseMap();
         }
     }
 }
