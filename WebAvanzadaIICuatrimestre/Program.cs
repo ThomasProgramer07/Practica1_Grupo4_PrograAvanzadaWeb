@@ -2,10 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using WebAvanzadaIICuatrimestre.BLL;
 using WebAvanzadaIICuatrimestre.BLL.Services.Carro;
+using WebAvanzadaIICuatrimestre.BLL.Services.Cliente;
 using WebAvanzadaIICuatrimestre.BLL.Services.Duenno;
 using WebAvanzadaIICuatrimestre.DAL.Data;
 using WebAvanzadaIICuatrimestre.DAL.Repositorios.Carro;
+using WebAvanzadaIICuatrimestre.DAL.Repositorios.Cliente;
 using WebAvanzadaIICuatrimestre.DAL.Repositorios.Duenno;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,10 +24,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Repositorios
 builder.Services.AddScoped<ICarroRepositorio, CarroRepositorio>();
 builder.Services.AddScoped<IDuennoRepositorio, DuennoRepositorio>();
+builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
 
 //Servicios
 builder.Services.AddScoped<ICarroServicio, CarroServicio>();
 builder.Services.AddScoped<IDuennoServicio, DuennoServicio>();
+builder.Services.AddScoped<IClienteServicio, ClienteServicio>();
 
 // Servicios Terceros
 builder.Services.AddAutoMapper(cfg => { }, typeof(MapeoClases)); // Directamente desde la documentación
@@ -71,6 +76,11 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "Duenno",
     pattern: "{controller=Duenno}/{action=Index}/{id?}")
+    .WithStaticAssets();
+
+app.MapControllerRoute(
+    name: "Cliente",
+    pattern: "{controller=Cliente}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 //FILTERS

@@ -20,6 +20,10 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<Duenno> Duennos { get; set; }
 
+    public virtual DbSet<Cliente> Clientes { get; set; }
+
+    public virtual DbSet<Telefono> Telefonos { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         // Intentionally left blank. Configure the provider externally.
         {
@@ -48,6 +52,25 @@ public partial class ApplicationDbContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Apellido2).HasDefaultValue("Sin apellido");
+        });
+
+        modelBuilder.Entity<Cliente>(entity =>
+        {
+            entity.ToTable("Cliente");
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.HasIndex(e => e.Identificacion).IsUnique();
+        });
+
+        modelBuilder.Entity<Telefono>(entity =>
+        {
+            entity.ToTable("Telefono");
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Fkcliente).HasColumnName("FKCliente");
+
+            entity.HasOne(t => t.FkclienteNavigation)
+                  .WithMany(c => c.Telefonos)
+                  .HasForeignKey(t => t.Fkcliente)
+                  .OnDelete(DeleteBehavior.Cascade);
         });
 
         OnModelCreatingPartial(modelBuilder);
