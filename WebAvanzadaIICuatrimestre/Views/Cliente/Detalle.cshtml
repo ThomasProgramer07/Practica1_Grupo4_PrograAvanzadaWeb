@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Detalle del Cliente";
+}
+
+<h2>Detalle del Cliente</h2>
+
+<a href="/Cliente/Index" class="btn btn-secondary mb-3">Volver al listado</a>
+
+<div id="detalleCliente">
+    <p>Cargando...</p>
+</div>
+
+<h4 class="mt-4">Números de Teléfono</h4>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Número</th>
+        </tr>
+    </thead>
+    <tbody id="bodyTelefonos">
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        async function cargarDetalle() {
+            const id = window.location.pathname.split('/').pop();
+            const response = await fetch(`/Cliente/GetClienteById?id=${id}`);
+            const respuesta = await response.json();
+
+            if (!respuesta.esCorrecto) {
+                document.getElementById('detalleCliente').innerHTML = `<p>${respuesta.mensaje}</p>`;
+                return;
+            }
+
+            const c = respuesta.dato;
+
+            document.getElementById('detalleCliente').innerHTML = `
+                <table class="table table-bordered">
+                    <tr><th>Identificación</th><td>${c.identificacion}</td></tr>
+                    <tr><th>Nombre</th><td>${c.nombre}</td></tr>
+                    <tr><th>Apellido 1</th><td>${c.apellido1}</td></tr>
+                    <tr><th>Apellido 2</th><td>${c.apellido2 ?? '-'}</td></tr>
+                    <tr><th>Correo</th><td>${c.correo ?? '-'}</td></tr>
+                </table>`;
+
+            const tbody = document.getElementById('bodyTelefonos');
+            tbody.innerHTML = '';
+
+            if (c.telefonos.length === 0) {
+                tbody.innerHTML = '<tr><td>Sin teléfonos registrados</td></tr>';
+            } else {
+                c.telefonos.forEach(t => {
+                    tbody.innerHTML += `<tr><td>${t.numero}</td></tr>`;
+                });
+            }
+        }
+
+        cargarDetalle();
+    </script>
+}
