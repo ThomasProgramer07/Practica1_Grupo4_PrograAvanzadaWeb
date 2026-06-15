@@ -34,6 +34,16 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Cliente
             return respuesta;
         }
 
+        public async Task<Respuesta<ClienteDto>> CrearCliente(ClienteDto clienteDto)
+        {
+            var respuesta = new Respuesta<ClienteDto>();
+            var entidad = _mapper.Map<DAL.Entidades.Cliente>(clienteDto);
+            var resultado = await _clienteRepositorio.CrearCliente(entidad);
+            respuesta.Dato = _mapper.Map<ClienteDto>(resultado);
+            respuesta.mensaje = "Cliente creado correctamente";
+            return respuesta;
+        }
+
         public async Task<Respuesta<ClienteDto>> UpdateCliente(ClienteDto cliente)
         {
             var respuesta = new Respuesta<ClienteDto>();

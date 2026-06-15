@@ -54,6 +54,11 @@ namespace WebAvanzadaIICuatrimestre.DAL.Repositorios.Cliente
             _context.Clientes.Update(existing);
             return await _context.SaveChangesAsync() > 0;
         }
+        public async Task<Entidades.Cliente> CrearCliente(Entidades.Cliente cliente)
+        {
+            _context.Clientes.Add(cliente);
+            await _context.SaveChangesAsync();
+            return cliente;
 
         public async Task<bool> DeleteCliente(int id)
         {

@@ -8,6 +8,9 @@
     <div class="card shadow-sm">
         <div class="card-header d-flex align-items-center justify-content-between">
             <h2 class="mb-0">Lista de Clientes</h2>
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCrearCliente">
+                Crear Cliente
+            </button>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -31,7 +34,7 @@
     </div>
 
     @await Html.PartialAsync("_Editar")
-
+    @await Html.PartialAsync("_Crear")
 </div>
 
 @section Scripts {

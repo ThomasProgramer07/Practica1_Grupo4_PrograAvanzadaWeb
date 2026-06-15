@@ -1,0 +1,84 @@
+﻿@model WebAvanzadaIICuatrimestre.BLL.Dtos.ClienteDto
+<div class="modal fade" id="modalCrearCliente" tabindex="-1"
+     aria-labelledby="modalCrearCliente" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Crear Cliente</h5>
+                <button type="button" class="btn-close"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formCrearCliente" asp-action="Crear"
+                      asp-controller="Cliente" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="mb-3">
+                        <label asp-for="Identificacion" class="form-label">Identificación</label>
+                        <input asp-for="Identificacion" class="form-control" id="Identificacion" />
+                        <span asp-validation-for="Identificacion" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Nombre" class="form-label">Nombre</label>
+                        <input asp-for="Nombre" class="form-control" id="Nombre" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Apellido1" class="form-label">Apellido 1</label>
+                        <input asp-for="Apellido1" class="form-control" id="Apellido1" />
+                        <span asp-validation-for="Apellido1" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Apellido2" class="form-label">Apellido 2</label>
+                        <input asp-for="Apellido2" class="form-control" id="Apellido2" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Correo" class="form-label">Correo</label>
+                        <input asp-for="Correo" class="form-control" type="email" id="Correo" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Teléfonos</label>
+                        <div id="listaTelefonosCrear">
+                            @if (Model?.Telefonos != null)
+                            {
+                                @for (int i = 0; i < Model.Telefonos.Count; i++)
+                                {
+                                    <div class="input-group mb-2 div-telefono-row">
+                                        <input class="form-control input-telefono"
+                                               placeholder="Número de teléfono"
+                                               value="@Model.Telefonos[i].Numero" />
+                                        <button type="button"
+                                                class="btn btn-outline-danger btn-remover-telefono">
+                                            Remover
+                                        </button>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <button type="button" class="btn btn-sm btn-success mt-1"
+                                id="btnAgregarTelefonoCrear">
+                            + Agregar Teléfono
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    Cerrar
+                </button>
+                <button type="button" class="btn btn-primary"
+                        id="btnGuardarCliente">
+                    Guardar Cliente
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
