@@ -7,5 +7,6 @@ namespace WebAvanzadaIICuatrimestre.DAL.Repositorios.Cliente
     {
         Task<List<Entidades.Cliente>> GetClientes();
         Task<Entidades.Cliente?> GetClienteById(int id);
+        Task<bool> UpdateCliente(Entidades.Cliente cliente);
     }
 }

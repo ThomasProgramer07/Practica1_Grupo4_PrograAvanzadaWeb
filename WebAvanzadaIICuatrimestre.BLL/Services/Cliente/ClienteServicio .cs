@@ -42,5 +42,30 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Cliente
             respuesta.Dato = _mapper.Map<ClienteDto>(entity);
             return respuesta;
         }
+
+        public async Task<Respuesta<ClienteDto>> UpdateCliente(ClienteDto cliente)
+        {
+            var respuesta = new Respuesta<ClienteDto>();
+
+            if (cliente == null)
+            {
+                respuesta.esCorrecto = false;
+                respuesta.mensaje = "Cliente inválido";
+                respuesta.codigo = 400;
+                return respuesta;
+            }
+
+            var entity = _mapper.Map<DAL.Entidades.Cliente>(cliente);
+            if (!await _clienteRepositorio.UpdateCliente(entity))
+            {
+                respuesta.esCorrecto = false;
+                respuesta.mensaje = "No se pudo actualizar el cliente";
+                respuesta.codigo = 404;
+                return respuesta;
+            }
+
+            respuesta.Dato = cliente;
+            return respuesta;
+        }
     }
 }
