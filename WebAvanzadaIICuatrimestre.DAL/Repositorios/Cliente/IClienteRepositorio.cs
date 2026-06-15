@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WebAvanzadaIICuatrimestre.DAL.Repositorios.Cliente
 {
@@ -8,5 +8,6 @@ namespace WebAvanzadaIICuatrimestre.DAL.Repositorios.Cliente
         Task<List<Entidades.Cliente>> GetClientes();
         Task<Entidades.Cliente?> GetClienteById(int id);
         Task<bool> UpdateCliente(Entidades.Cliente cliente);
+        Task<bool> DeleteCliente(int id);
     }
 }
