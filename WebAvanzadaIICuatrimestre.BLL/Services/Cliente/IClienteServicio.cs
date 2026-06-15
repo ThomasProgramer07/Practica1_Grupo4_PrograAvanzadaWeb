@@ -9,6 +9,7 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Cliente
     {
         Task<Respuesta<List<ClienteDto>>> GetClientes();
         Task<Respuesta<ClienteDto?>> GetClienteById(int id);
+        Task<Respuesta<ClienteDto>> CrearCliente(ClienteDto clienteDto);
         Task<Respuesta<ClienteDto>> UpdateCliente(ClienteDto cliente);
     }
 }

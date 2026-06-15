@@ -46,22 +46,32 @@
             });
         },
         registrarEventos() {
-            $('#tblCliente').on('click', '.btn-editar', function () {
+
+            $(document).on('click', '.btn-editar', function () {
                 const id = $(this).data('id');
                 Cliente.cargarCliente(id);
             });
 
-            $('#btnEditarCliente').on('click', function () {
+            $(document).on('click', '#btnEditarCliente', function () {
                 Cliente.editarCliente();
             });
 
-            $('#btnAgregarTelefono').on('click', function () {
-                Cliente.agregarTelefono();
+            $(document).on('click', '#btnGuardarCliente', function () {
+                Cliente.guardarCliente();
             });
 
-            $(document).on('click', '.btn-eliminar-telefono', function () {
-                const index = $(this).data('index');
-                Cliente.eliminarTelefono(index);
+            $(document).on('click', '#btnAgregarTelefonoCrear', function () {
+                const html = `
+                    <div class="input-group mb-2 div-telefono-row">
+                        <input type="text" class="form-control input-telefono" placeholder="Número de teléfono" />
+                        <button class="btn btn-outline-danger btn-remover-telefono" type="button">Remover</button>
+                    </div>
+                `;
+                $('#listaTelefonosCrear').append(html);
+            });
+
+            $(document).on('click', '.btn-remover-telefono', function () {
+                $(this).closest('.div-telefono-row').remove();
             });
         },
         cargarCliente(id) {
@@ -77,38 +87,14 @@
                     $('#Correo').val(data.correo);
 
                     Cliente.telefonos = data.telefonos || [];
-                    Cliente.renderizarTelefonos();
+                    Cliente.renderizarTelefonosEnEditar();
 
                     $('#modalEditarCliente').modal('show');
                 }
             });
         },
-        agregarTelefono() {
-            const numero = $('#nuevoTelefono').val().trim();
-            if (!numero) {
-                Swal.fire({
-                    title: 'Atención',
-                    text: 'Debe ingresar un número de teléfono',
-                    icon: 'warning'
-                });
-                return;
-            }
-
-            Cliente.telefonos.push({
-                id: 0,
-                numero: numero,
-                fkcliente: parseInt($('#Id').val())
-            });
-
-            $('#nuevoTelefono').val('');
-            Cliente.renderizarTelefonos();
-        },
-        eliminarTelefono(index) {
-            Cliente.telefonos.splice(index, 1);
-            Cliente.renderizarTelefonos();
-        },
-        renderizarTelefonos() {
-            const lista = $('#listaTelefonos');
+        renderizarTelefonosEnEditar() {
+            const lista = $('#listaTelefonosEditar') || $('#listaTelefonos');
             lista.empty();
 
             if (Cliente.telefonos.length === 0) {
@@ -130,6 +116,10 @@
         editarCliente() {
             let form = $('#formEditarCliente');
 
+            if ($.validator && $.validator.unobtrusive) {
+                $.validator.unobtrusive.parse(form);
+            }
+
             if (!form.valid()) {
                 return;
             }
@@ -145,7 +135,7 @@
             };
 
             $.ajax({
-                url: form.attr('action'),
+                url: '/Cliente/Editar',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(clienteData),
@@ -168,13 +158,54 @@
                             icon: 'error'
                         });
                     }
-                },
-                error: function () {
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'Ocurrió un error al intentar actualizar el cliente',
-                        icon: 'error'
-                    });
+                }
+            });
+        },
+        guardarCliente() {
+            let form = $('#formCrearCliente');
+            if ($.validator && $.validator.unobtrusive) {
+                $.validator.unobtrusive.parse(form);
+            }
+
+            if (!form.valid()) {
+                return;
+            }
+
+            const clienteDto = {
+                Identificacion: form.find('#Identificacion').val(),
+                Nombre: form.find('#Nombre').val(),
+                Apellido1: form.find('#Apellido1').val(),
+                Apellido2: form.find('#Apellido2').val(),
+                Correo: form.find('#Correo').val(),
+                Telefonos: []
+            };
+
+            form.find('.input-telefono').each(function () {
+                const numeroTel = $(this).val();
+                if (numeroTel.trim() !== "") {
+                    clienteDto.Telefonos.push({ Numero: numeroTel });
+                }
+            });
+
+            $.ajax({
+                url: '/Cliente/Crear',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(clienteDto),
+                success: function (respuesta) {
+                    if (respuesta.esCorrecto) {
+                        $('#modalCrearCliente').modal('hide');
+                        form[0].reset();
+                        form.find('.div-telefono-row').remove();
+                        Cliente.tabla.ajax.reload();
+                    }
+                    else {
+                        Swal.fire({
+                            title: 'Incorrecto',
+                            text: respuesta.mensaje,
+                            icon: 'error'
+                        });
+                    }
                 }
             });
         }

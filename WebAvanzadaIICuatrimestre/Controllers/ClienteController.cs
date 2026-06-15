@@ -30,15 +30,24 @@ namespace WebAvanzadaIICuatrimestre.Controllers
             return Json(respuesta);
         }
 
-        public async Task<IActionResult> UpdateCliente(ClienteDto cliente)
-        {
-            var respuesta = await _clienteServicio.UpdateCliente(cliente);
-            return Json(respuesta);
-        }
-
         public IActionResult Detalle(int id)
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Crear([FromBody] ClienteDto clienteDto)
+        {
+            clienteDto.Telefonos = (clienteDto.Telefonos ?? new List<TelefonoDto>()).Where(t => !string.IsNullOrWhiteSpace(t.Numero)).ToList();
+            if (!ModelState.IsValid)
+                return Json(new { esCorrecto = false, mensaje = "Datos inválidos" });
+
+            var respuesta = await _clienteServicio.CrearCliente(clienteDto);
+            return Json(new
+            {
+                esCorrecto = respuesta.esCorrecto,
+                mensaje = respuesta.mensaje
+            });
         }
     }
 }
