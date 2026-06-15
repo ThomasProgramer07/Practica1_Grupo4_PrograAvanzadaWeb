@@ -21,7 +21,7 @@
                             <th>Apellido 2</th>
                             <th>Correo</th>
                             <th>Teléfonos</th>
-                            <th style="width:10%">Detalle</th>
+                            <th style="width:18%">Acciones</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -29,8 +29,12 @@
             </div>
         </div>
     </div>
+
+    @await Html.PartialAsync("_Editar")
+
 </div>
 
 @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
     <script src="~/js/cliente.js" asp-append-version="true"></script>
 }
