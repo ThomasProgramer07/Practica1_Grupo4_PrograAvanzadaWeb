@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebAvanzadaIICuatrimestre.DAL.Data;
@@ -51,6 +52,21 @@ namespace WebAvanzadaIICuatrimestre.DAL.Repositorios.Cliente
             }
 
             _context.Clientes.Update(existing);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> DeleteCliente(int id)
+        {
+            var cliente = await _context.Clientes.Include(c => c.Telefonos).FirstOrDefaultAsync(c => c.Id == id);
+            if (cliente == null) return false;
+
+            var telefonos = cliente.Telefonos.ToList();
+            foreach (var telefono in telefonos)
+            {
+                _context.Set<Entidades.Telefono>().Remove(telefono);
+            }
+
+            _context.Clientes.Remove(cliente);
             return await _context.SaveChangesAsync() > 0;
         }
     }
