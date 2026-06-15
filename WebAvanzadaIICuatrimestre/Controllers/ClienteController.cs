@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using WebAvanzadaIICuatrimestre.BLL.Dtos;
 using WebAvanzadaIICuatrimestre.BLL.Services.Cliente;
 
@@ -48,6 +50,13 @@ namespace WebAvanzadaIICuatrimestre.Controllers
                 esCorrecto = respuesta.esCorrecto,
                 mensaje = respuesta.mensaje
             });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var respuesta = await _clienteServicio.DeleteCliente(id);
+            return Json(respuesta);
         }
     }
 }
