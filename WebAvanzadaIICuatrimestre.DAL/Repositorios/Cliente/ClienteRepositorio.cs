@@ -59,6 +59,7 @@ namespace WebAvanzadaIICuatrimestre.DAL.Repositorios.Cliente
             _context.Clientes.Add(cliente);
             await _context.SaveChangesAsync();
             return cliente;
+        }
 
         public async Task<bool> DeleteCliente(int id)
         {

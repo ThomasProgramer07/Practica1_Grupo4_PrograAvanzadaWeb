@@ -22,7 +22,7 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Cliente
         {
             var respuesta = new Respuesta<List<ClienteDto>>();
             var list = await _clienteRepositorio.GetClientes();
-            respuesta.Data = _mapper.Map<List<ClienteDto>>(list);
+            respuesta.Dato = _mapper.Map<List<ClienteDto>>(list);
             return respuesta;
         }
 
@@ -30,7 +30,7 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Cliente
         {
             var respuesta = new Respuesta<ClienteDto>();
             var entity = await _clienteRepositorio.GetClienteById(id);
-            respuesta.Data = _mapper.Map<ClienteDto>(entity);
+            respuesta.Dato = _mapper.Map<ClienteDto>(entity);
             return respuesta;
         }
 
@@ -51,7 +51,7 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Cliente
             var exito = await _clienteRepositorio.UpdateCliente(entity);
             if (exito)
             {
-                respuesta.Data = cliente;
+                respuesta.Dato = cliente;
             }
             return respuesta;
         }
@@ -62,14 +62,14 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Cliente
             try
             {
                 var exito = await _clienteRepositorio.DeleteCliente(id);
-                resultado.Data = exito;
-                resultado.EsExitoso = exito;
-                resultado.Mensaje = exito ? "Cliente eliminado correctamente." : "No se encontró el cliente.";
+                resultado.Dato = exito;
+                resultado.esCorrecto = exito;
+                resultado.mensaje = exito ? "Cliente eliminado correctamente." : "No se encontró el cliente.";
             }
             catch (Exception ex)
             {
-                resultado.EsExitoso = false;
-                resultado.Mensaje = ex.Message;
+                resultado.esCorrecto= false;
+                resultado.mensaje = ex.Message;
             }
             return resultado;
         }
