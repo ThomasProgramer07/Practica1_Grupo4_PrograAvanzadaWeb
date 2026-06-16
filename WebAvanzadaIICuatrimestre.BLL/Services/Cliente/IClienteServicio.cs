@@ -8,8 +8,8 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Cliente
     {
         Task<Respuesta<List<ClienteDto>>> GetClientes();
         Task<Respuesta<ClienteDto?>> GetClienteById(int id);
-        Task<Respuesta<ClienteDto>> CrearCliente(ClienteDto clienteDto);
+        Task<Respuesta<ClienteDto>> CrearCliente(ClienteDto cliente);
         Task<Respuesta<ClienteDto>> UpdateCliente(ClienteDto cliente);
-        Task<Respuesta<bool>> DeleteCliente(int id);
+        Task<Respuesta<ClienteDto>> DeleteCliente(int id);
     }
 }

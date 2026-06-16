@@ -1,45 +1,41 @@
-@model WebAvanzadaIICuatrimestre.BLL.Dtos.ClienteDto
+    @model WebAvanzadaIICuatrimestre.BLL.Dtos.ClienteDto
 
-<div class="modal fade" id="modalEditarCliente" tabindex="-1" aria-labelledby="modalEditarCliente" aria-hidden="true">
+<div class="modal fade" id="modalEditarCliente" tabindex="-1" aria-labelledby="modalEditarClienteLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalEditarCliente">Editar Cliente</h5>
+                <h5 class="modal-title" id="modalEditarClienteLabel">Editar Cliente</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="formEditarCliente" asp-action="UpdateCliente" asp-controller="Cliente" method="post" class="row g-3">
                     @Html.AntiForgeryToken()
-                    <input type="hidden" asp-for="Id" />
+
+                    <input type="hidden" id="IdEditar" name="Id" />
 
                     <div class="col-md-6">
-                        <label asp-for="Identificacion" class="form-label">Identificación</label>
-                        <input asp-for="Identificacion" class="form-control" />
-                        <span asp-validation-for="Identificacion" class="text-danger"></span>
+                        <label for="IdentificacionEditar" class="form-label">Identificación</label>
+                        <input type="text" id="IdentificacionEditar" name="Identificacion" class="form-control" />
                     </div>
 
                     <div class="col-md-6">
-                        <label asp-for="Nombre" class="form-label">Nombre</label>
-                        <input asp-for="Nombre" class="form-control" />
-                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                        <label for="NombreEditar" class="form-label">Nombre</label>
+                        <input type="text" id="NombreEditar" name="Nombre" class="form-control" />
                     </div>
 
                     <div class="col-md-6">
-                        <label asp-for="Apellido1" class="form-label">Apellido 1</label>
-                        <input asp-for="Apellido1" class="form-control" />
-                        <span asp-validation-for="Apellido1" class="text-danger"></span>
+                        <label for="Apellido1Editar" class="form-label">Apellido 1</label>
+                        <input type="text" id="Apellido1Editar" name="Apellido1" class="form-control" />
                     </div>
 
                     <div class="col-md-6">
-                        <label asp-for="Apellido2" class="form-label">Apellido 2</label>
-                        <input asp-for="Apellido2" class="form-control" />
-                        <span asp-validation-for="Apellido2" class="text-danger"></span>
+                        <label for="Apellido2Editar" class="form-label">Apellido 2</label>
+                        <input type="text" id="Apellido2Editar" name="Apellido2" class="form-control" />
                     </div>
 
                     <div class="col-md-12">
-                        <label asp-for="Correo" class="form-label">Correo</label>
-                        <input asp-for="Correo" type="email" class="form-control" />
-                        <span asp-validation-for="Correo" class="text-danger"></span>
+                        <label for="CorreoEditar" class="form-label">Correo</label>
+                        <input type="email" id="CorreoEditar" name="Correo" class="form-control" />
                     </div>
 
                     <div class="col-md-12">
@@ -48,8 +44,7 @@
                             <input type="text" id="nuevoTelefono" class="form-control" placeholder="Ingrese número de teléfono" />
                             <button type="button" class="btn btn-success" id="btnAgregarTelefono">Agregar</button>
                         </div>
-                        <div id="listaTelefonos" class="list-group">
-                        </div>
+                        <div id="listaTelefonosEditar" class="list-group"></div>
                     </div>
                 </form>
             </div>

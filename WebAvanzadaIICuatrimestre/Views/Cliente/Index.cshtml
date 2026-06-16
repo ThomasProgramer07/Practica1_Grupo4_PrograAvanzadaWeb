@@ -1,4 +1,6 @@
-﻿@{
+﻿@using WebAvanzadaIICuatrimestre.BLL.Dtos;
+@model List<ClienteDto>
+@{
     ViewData["Title"] = "Mantenimiento de Clientes";
 }
 
@@ -8,9 +10,11 @@
     <div class="card shadow-sm">
         <div class="card-header d-flex align-items-center justify-content-between">
             <h2 class="mb-0">Lista de Clientes</h2>
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCrearCliente">
-                Crear Cliente
-            </button>
+            <div>
+                <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#modalCrearCliente">
+                    Crear Cliente
+                </button>
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -24,7 +28,7 @@
                             <th>Apellido 2</th>
                             <th>Correo</th>
                             <th>Teléfonos</th>
-                            <th style="width:18%">Acciones</th>
+                            <th style="width:22%">Acciones</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
