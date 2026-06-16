@@ -1,0 +1,102 @@
+﻿    @model WebAvanzadaIICuatrimestre.BLL.Dtos.ClienteDto
+
+<div class="modal fade" id="modalCrearCliente" tabindex="-1" aria-labelledby="modalCrearClienteLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCrearClienteLabel">Crear Cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formCrearCliente" asp-action="Crear" asp-controller="Cliente" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div class="mb-3">
+                        <label for="Identificacion" class="form-label">Identificación</label>
+                        <input type="text" class="form-control" id="Identificacion" name="Identificacion" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="Nombre" name="Nombre" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Apellido1" class="form-label">Apellido 1</label>
+                        <input type="text" class="form-control" id="Apellido1" name="Apellido1" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Apellido2" class="form-label">Apellido 2</label>
+                        <input type="text" class="form-control" id="Apellido2" name="Apellido2" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Correo" class="form-label">Correo</label>
+                        <input type="email" class="form-control" id="Correo" name="Correo" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Teléfonos</label>
+                        <div id="listaTelefonosCrear"></div>
+                        <div id="telefonosCrearHidden"></div>
+                        <button type="button" class="btn btn-sm btn-success mt-1" id="btnAgregarTelefonoCrear">
+                            + Agregar Teléfono
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="btnGuardarCliente">Guardar Cliente</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var telefonoIndex = 0;
+
+            function actualizarTelefonosHidden() {
+                var telefonosArray = [];
+                $('#listaTelefonosCrear .entradaTelefono').each(function () {
+                    var numero = $(this).val();
+                    if (numero) {
+                        telefonosArray.push({ Numero: numero });
+                    }
+                });
+                $('#telefonosCrearHidden').val(JSON.stringify(telefonosArray));
+            }
+
+            $('#btnAgregarTelefonoCrear').click(function () {
+                $('#listaTelefonosCrear').append(`
+                    <div class="input-group mb-3 entradaTelefono">
+                        <input type="text" class="form-control" name="Telefonos[${telefonoIndex}].Numero" placeholder="Número de teléfono" required />
+                        <button class="btn btn-danger btn-eliminar-telefono" type="button">-</button>
+                    </div>
+                `);
+                telefonoIndex++;
+            });
+
+            $(document).on('click', '.btn-eliminar-telefono', function () {
+                $(this).closest('.entradaTelefono').remove();
+                actualizarTelefonosHidden();
+            });
+
+            $('#btnGuardarCliente').click(function (e) {
+                e.preventDefault();
+                var form = $('#formCrearCliente');
+                if (form[0].checkValidity() === false) {
+                    e.stopPropagation();
+                } else {
+                    // Aquí puedes realizar la acción de guardar el cliente usando AJAX o cualquier otra lógica
+                    Swal.fire('Éxito', 'Cliente creado correctamente', 'success');
+                    $('#modalCrearCliente').modal('hide');
+                }
+                form.addClass('was-validated');
+            });
+        });
+    </script>
+}

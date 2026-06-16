@@ -1,4 +1,3 @@
-
 using Microsoft.EntityFrameworkCore;
 using WebAvanzadaIICuatrimestre.BLL;
 using WebAvanzadaIICuatrimestre.BLL.Services.Carro;
@@ -14,6 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Configurar Antiforgery para aceptar el token en headers
+builder.Services.AddAntiforgery(options =>
+{
+    options.HeaderName = "RequestVerificationToken";
+});
 
 // Register EF Core DbContext (SQLite). Update the connection string in appsettings.json
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -63,37 +68,14 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
 app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapStaticAssets();
-
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-app.MapControllerRoute(
-    name: "Duenno",
-    pattern: "{controller=Duenno}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
-app.MapControllerRoute(
-    name: "Cliente",
-    pattern: "{controller=Cliente}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
-//FILTERS
-
-//MIDDLEWARES
-
-//INGRESO DE VARIASBLES DE ENTORNO AZURE KEYVAULTS
-
-
-
-
-
-//NO SE PUEDAN REGLAS DE NEGOCIO
-
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

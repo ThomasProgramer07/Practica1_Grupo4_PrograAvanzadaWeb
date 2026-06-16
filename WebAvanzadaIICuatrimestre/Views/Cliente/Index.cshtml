@@ -21,7 +21,7 @@
                             <th>Apellido 2</th>
                             <th>Correo</th>
                             <th>Teléfonos</th>
-                            <th style="width:18%">Acciones</th>
+                            <th style="width:22%">Acciones</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -30,8 +30,13 @@
         </div>
     </div>
 
+<<<<<<< Updated upstream
     @await Html.PartialAsync("_Editar")
 
+=======
+    @await Html.PartialAsync("_Editar", new WebAvanzadaIICuatrimestre.BLL.Dtos.ClienteDto())
+    @await Html.PartialAsync("_Crear", new WebAvanzadaIICuatrimestre.BLL.Dtos.ClienteDto())
+>>>>>>> Stashed changes
 </div>
 
 @section Scripts {
